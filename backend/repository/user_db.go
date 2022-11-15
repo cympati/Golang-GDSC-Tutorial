@@ -17,8 +17,24 @@ func NewRepositoryDB(db *sql.DB) userRepositoryDB { // รับ instance databa
 
 func (u userRepositoryDB) CreateUser(email string, password string, secret string) (*User, error) {
 	// implement me
-	fmt.Print("User Inserted")
-	return nil, nil
+	//fmt.Print("User Inserted")
+	//return nil, nil
+
+	// Insert document into database
+	insert, err := u.db.Exec("INSERT INTO users (email, password, secret) VALUES (?, ?, ?)", email, password, secret)
+	if err != nil {
+		return nil, err
+	}
+	userId, err := insert.LastInsertId()
+
+	// Create user object
+	var user = User{
+		Id:       userId,
+		Email:    email,
+		Password: password,
+		Secret:   secret,
+	}
+	return &user, nil
 }
 func (u userRepositoryDB) CheckUser(email string) (*User, error) {
 	// implement me
