@@ -1,11 +1,12 @@
 package repository
 
-// User Adapter
+// Adapter (Repository)
 import (
 	"database/sql"
 	"fmt"
 )
 
+// Private
 type userRepositoryDB struct {
 	db *sql.DB
 }
